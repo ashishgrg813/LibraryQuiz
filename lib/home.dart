@@ -1,4 +1,6 @@
 // ../lib/API/SimpleMethod/Que08_LoadLocalJson.dart
+// ignore_for_file: prefer_const_constructors, unused_import, prefer_const_constructors_in_immutables
+
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
@@ -15,12 +17,93 @@ class Dashboard extends StatefulWidget {
 
 class DashboardState extends State<Dashboard> {
   List data;
-  final List<String> Years = ['2015', '2016', '2017', '2018', '2019'];
-  final List<String> Months = ['Jan', 'Feb', 'March', 'April', 'May', 'June'];
+  final List<String> Years = [
+    'Select All',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2021'
+  ];
+  // final List Months = [
+  //   {'Select All': 0, 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5},
+  // ];
+  final List<String> Months = [
+    'Select All',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12'
+  ];
+
   String _level;
+  dynamic questions = [];
   List<String> year = [];
+  List convertedJsonData;
+  List convertedJsonData1;
+  List convertedJsonData2;
   String selectedYear;
   String selectedMonth;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   loadJson();
+  // }
+
+  // loadJson() async {
+  //   String data = await rootBundle.loadString('assets/QueBank.json');
+  //   convertedJsonData = json.decode(data);
+  // }
+
+  fetchdata() async {
+    var data = await rootBundle.loadString('assets/QueBank.json');
+    convertedJsonData = json.decode(data);
+    if (selectedYear != null && selectedYear != 'Select All') {
+      convertedJsonData = convertedJsonData
+          .where((element) =>
+              element['yr1'].toString().toLowerCase() ==
+              (selectedYear.toLowerCase()))
+          .toList();
+    }
+    if (selectedMonth != null && selectedMonth != 'Select All') {
+      convertedJsonData = convertedJsonData
+          .where((element) =>
+              element['Mon1'].toString().toLowerCase() ==
+              (selectedMonth.toLowerCase()))
+          .toList();
+    }
+  }
+
+  void filterdate() {
+    if (selectedYear != null && selectedYear != 'Select All') {
+      convertedJsonData = convertedJsonData
+          .where((element) => element['yr1']
+              .toString()
+              .toLowerCase()
+              .contains(selectedYear.toLowerCase()))
+          .toList();
+    }
+  }
+
+  void filtermonth() {
+    if (selectedMonth != null && selectedMonth != 'Select All') {
+      convertedJsonData = convertedJsonData
+          .where((element) => element['Mon1']
+              .toString()
+              .toLowerCase()
+              .contains(selectedMonth.toLowerCase()))
+          .toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +129,7 @@ class DashboardState extends State<Dashboard> {
               onChanged: (val) {
                 setState(() {
                   selectedYear = val;
+                  filterdate();
                 });
               },
             ),
@@ -66,6 +150,7 @@ class DashboardState extends State<Dashboard> {
               onChanged: (val) {
                 setState(() {
                   selectedMonth = val;
+                  filtermonth();
                 });
               },
             ),
@@ -96,24 +181,24 @@ class DashboardState extends State<Dashboard> {
                 ),
                 Text("High    "),
                 ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.green[300]),
-                  ),
-                  child: Text('Search Topics'),
-                )
+                    child: Text('Search Topics'),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green[300]),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SearchScreen()));
+                    })
               ],
             ),
             Expanded(
               child: Container(
                 child: FutureBuilder(
                     // future: DefaultAssetBundle.of(context) //rootBundle
-                    future: rootBundle.loadString('assets/QueBank.json'),
+                    future: fetchdata(),
                     builder: (context, snapshot) {
                       // Decode the JSON
-                      var convertedJsonData =
-                          json.decode(snapshot.data.toString());
-
                       return ListView.builder(
                         // Build the ListView
                         itemBuilder: (BuildContext context, int index) {

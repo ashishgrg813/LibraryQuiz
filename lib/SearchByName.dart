@@ -1,6 +1,10 @@
+// ignore_for_file: use_key_in_widget_constructors, unnecessary_new, unused_local_variable, prefer_const_constructors, file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
+
+import 'package:flutter_libraryquiz/Testpage.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreenState createState() => SearchScreenState();
@@ -50,6 +54,9 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Search Topics'),
+      ),
       body: Column(
           // mainAxisSize: MainAxisSize.max,
           // mainAxisAlignment: MainAxisAlignment.start,
@@ -101,15 +108,39 @@ Widget _listView(persons) {
         itemCount: persons.length,
         itemBuilder: (context, index) {
           var person = persons[index];
-          return Container(
-              child: Text(
-            person['Question'],
-            style: TextStyle(
-                fontSize: 14.0,
-                fontStyle: FontStyle.italic,
-                color: Colors.brown,
-                fontWeight: FontWeight.bold),
-          ));
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => Demo(
+                    srno: persons[index]['srno'].toString(),
+                    Question: persons[index]['Question'],
+                    MCQ_01: persons[index]['MCQ_O1'],
+                    MCQ_02: persons[index]['MCQ_O2'],
+                    MCQ_03: persons[index]['MCQ_O3'],
+                    MCQ_04: persons[index]['MCQ_O4'],
+                    MCQ_AK: persons[index]['MCQ_AK'],
+                    Desc_AK: persons[index]['Desc_AK'],
+                  ),
+                ),
+              );
+            },
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    "Sr No: " + persons[index]['srno'].toString(),
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                  Text(
+                    "Question: " + persons[index]['Question'],
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                ],
+              ),
+            ),
+          );
         }),
   );
 }

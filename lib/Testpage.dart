@@ -1,6 +1,7 @@
 // ignore: file_names
+// ignore_for_file: avoid_unnecessary_containers, file_names, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter_libraryquiz/NextQue.dart';
 
 class Demo extends StatefulWidget {
   String srno;
@@ -175,15 +176,6 @@ class _DemoState extends State<Demo> {
                   ),
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => nextQue(),
-                      ),
-                    );
-                  },
-                  child: Text('Next Question'))
             ],
           )
         ],
