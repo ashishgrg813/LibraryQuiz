@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:flutter_libraryquiz/SearchByName.dart';
+import 'package:flutter_libraryquiz/drawer.dart';
 
 import 'Testpage.dart';
 
@@ -25,8 +26,10 @@ class DashboardState extends State<Dashboard> {
     '2018',
     '2021'
   ];
-  // final List Months = [
-  //   {'Select All': 0, 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5},
+  // List<KeyValueModel> Months = [
+  //   KeyValueModel(key: '0', value: 'Select All'),
+  //   KeyValueModel(key: '1', value: 'Jan'),
+  //   KeyValueModel(key: '0', value: 'Feb'),
   // ];
   final List<String> Months = [
     'Select All',
@@ -110,6 +113,7 @@ class DashboardState extends State<Dashboard> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        drawer: DrawerMenu(),
         appBar: AppBar(
           title: Text("Current Affairs"),
         ),
@@ -129,6 +133,7 @@ class DashboardState extends State<Dashboard> {
               onChanged: (val) {
                 setState(() {
                   selectedYear = val;
+                  selectedMonth = Months[0];
                   filterdate();
                 });
               },
@@ -226,16 +231,19 @@ class DashboardState extends State<Dashboard> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Text(
-                                    "Sr No: " +
-                                        convertedJsonData[index]['srno']
-                                            .toString(),
-                                    style: TextStyle(fontSize: 15.0),
-                                  ),
-                                  Text(
-                                    "Question: " +
-                                        convertedJsonData[index]['Question'],
-                                    style: TextStyle(fontSize: 15.0),
+                                  // Text(
+                                  //   "Sr No: " +
+                                  //       convertedJsonData[index]['srno']
+                                  //           .toString(),
+                                  //   style: TextStyle(fontSize: 15.0),
+                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Question: " +
+                                          convertedJsonData[index]['Question'],
+                                      style: TextStyle(fontSize: 15.0),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -255,3 +263,10 @@ class DashboardState extends State<Dashboard> {
     );
   }
 }
+
+// class KeyValueModel {
+//   String key;
+//   String value;
+
+//   KeyValueModel({this.key, this.value});
+// }

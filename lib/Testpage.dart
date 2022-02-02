@@ -94,7 +94,7 @@ class _DemoState extends State<Demo> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               child: Text(
-                widget.srno + '. ' + widget.Question,
+                'Question:  ' + widget.Question,
                 style: TextStyle(fontSize: 22),
               ),
             ),
