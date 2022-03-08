@@ -2,10 +2,12 @@
 // ignore_for_file: prefer_const_constructors, unused_import, prefer_const_constructors_in_immutables
 
 import 'dart:convert';
+import 'dart:html';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:flutter_libraryquiz/SearchByName.dart';
 import 'package:flutter_libraryquiz/drawer.dart';
+import 'package:flutter_libraryquiz/model.dart';
 
 import 'Testpage.dart';
 
@@ -17,7 +19,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class DashboardState extends State<Dashboard> {
-  List data;
+  List<Quebank> convertedJsonData;
+  //List data;
   final List<String> Years = [
     'Select All',
     '2015',
@@ -50,8 +53,8 @@ class DashboardState extends State<Dashboard> {
   String _level;
   dynamic questions = [];
   List<String> year = [];
-  List convertedJsonData;
-  List convertedJsonData1;
+  //List convertedJsonData;
+//  List<Quebank> convertedJsonData1;
   List convertedJsonData2;
   String selectedYear;
   String selectedMonth;
@@ -64,23 +67,26 @@ class DashboardState extends State<Dashboard> {
 
   // loadJson() async {
   //   String data = await rootBundle.loadString('assets/QueBank.json');
-  //   convertedJsonData = json.decode(data);
+  //   convertedJsonData = quebankFromJson(data);
   // }
 
-  fetchdata() async {
-    var data = await rootBundle.loadString('assets/QueBank.json');
-    convertedJsonData = json.decode(data);
+  Future<List<Quebank>> fetchdata() async {
+    String data = await rootBundle.loadString('assets/QueBank.json');
+    convertedJsonData = quebankFromJson(data);
+
+    // var data = await rootBundle.loadString('assets/QueBank.json');
+    // convertedJsonData = json.decode(data);
     if (selectedYear != null && selectedYear != 'Select All') {
       convertedJsonData = convertedJsonData
           .where((element) =>
-              element['yr1'].toString().toLowerCase() ==
+              element.yr1.toString().toLowerCase() ==
               (selectedYear.toLowerCase()))
           .toList();
     }
     if (selectedMonth != null && selectedMonth != 'Select All') {
       convertedJsonData = convertedJsonData
           .where((element) =>
-              element['Mon1'].toString().toLowerCase() ==
+              element.mon1.toString().toLowerCase() ==
               (selectedMonth.toLowerCase()))
           .toList();
     }
@@ -89,7 +95,7 @@ class DashboardState extends State<Dashboard> {
   void filterdate() {
     if (selectedYear != null && selectedYear != 'Select All') {
       convertedJsonData = convertedJsonData
-          .where((element) => element['yr1']
+          .where((element) => element.yr1
               .toString()
               .toLowerCase()
               .contains(selectedYear.toLowerCase()))
@@ -100,7 +106,7 @@ class DashboardState extends State<Dashboard> {
   void filtermonth() {
     if (selectedMonth != null && selectedMonth != 'Select All') {
       convertedJsonData = convertedJsonData
-          .where((element) => element['Mon1']
+          .where((element) => element.mon1
               .toString()
               .toLowerCase()
               .contains(selectedMonth.toLowerCase()))
@@ -119,6 +125,11 @@ class DashboardState extends State<Dashboard> {
         ),
         body: Column(
           children: [
+            // Row(
+            //   children: [
+            //     Text('Please select Year and Month'),
+            //   ],
+            // ),
             DropdownButton<String>(
               isExpanded: true,
               iconSize: 30.0,
@@ -212,17 +223,16 @@ class DashboardState extends State<Dashboard> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => Demo(
-                                    srno: convertedJsonData[index]['srno']
+                                    srno: convertedJsonData[index]
+                                        .srno
                                         .toString(),
-                                    Question: convertedJsonData[index]
-                                        ['Question'],
-                                    MCQ_01: convertedJsonData[index]['MCQ_O1'],
-                                    MCQ_02: convertedJsonData[index]['MCQ_O2'],
-                                    MCQ_03: convertedJsonData[index]['MCQ_O3'],
-                                    MCQ_04: convertedJsonData[index]['MCQ_O4'],
-                                    MCQ_AK: convertedJsonData[index]['MCQ_AK'],
-                                    Desc_AK: convertedJsonData[index]
-                                        ['Desc_AK'],
+                                    Question: convertedJsonData[index].question,
+                                    MCQ_01: convertedJsonData[index].mcqO1,
+                                    MCQ_02: convertedJsonData[index].mcqO2,
+                                    MCQ_03: convertedJsonData[index].mcqO3,
+                                    MCQ_04: convertedJsonData[index].mcqO4,
+                                    MCQ_AK: convertedJsonData[index].mcqAk,
+                                    Desc_AK: convertedJsonData[index].descAk,
                                   ),
                                 ),
                               );
@@ -241,7 +251,7 @@ class DashboardState extends State<Dashboard> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       "Question: " +
-                                          convertedJsonData[index]['Question'],
+                                          convertedJsonData[index].question,
                                       style: TextStyle(fontSize: 15.0),
                                     ),
                                   ),
