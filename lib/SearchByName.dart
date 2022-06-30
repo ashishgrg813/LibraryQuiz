@@ -129,10 +129,10 @@ Widget _listView(persons) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(
-                    "Sr No: " + persons[index]['srno'].toString(),
-                    style: TextStyle(fontSize: 15.0),
-                  ),
+                  // Text(
+                  //   "Sr No: " + persons[index]['srno'].toString(),
+                  //   style: TextStyle(fontSize: 15.0),
+                  // ),
                   Text(
                     "Question: " + persons[index]['Question'],
                     style: TextStyle(fontSize: 15.0),
