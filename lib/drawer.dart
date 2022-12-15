@@ -49,17 +49,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   MaterialPageRoute(builder: (context) => Dashboard()));
             },
           ),
-          ListTile(
-            leading: Icon(Icons.search, color: Colors.blueAccent),
-            title: Text(
-              'Search',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()));
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.search, color: Colors.blueAccent),
+          //   title: Text(
+          //     'Search',
+          //     style: TextStyle(fontWeight: FontWeight.bold),
+          //   ),
+          //   onTap: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => SearchScreen()));
+          //   },
+          // ),
           ListTile(
             leading: Icon(Icons.category, color: Colors.blueAccent),
             title: Text(
